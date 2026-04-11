@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: emi-service
+  namespace: pc-app
+spec:
+  selector:
+    app: emi-service
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
+
