@@ -18,7 +18,12 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
+
+      - name: Clean install dependencies
+        run: |
+          pip uninstall python-jose ecdsa pyasn1 -y || true
+          pip install --no-cache-dir -r requirements.txt
+          
       - name: Snyk Security Scan (Python)
         uses: snyk/actions/python@master
         env:
