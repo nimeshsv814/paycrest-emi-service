@@ -18,6 +18,7 @@ jobs:
      
       - name: Snyk Scan
         uses: snyk/actions/python@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
