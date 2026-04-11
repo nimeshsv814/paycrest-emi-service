@@ -68,7 +68,7 @@ jobs:
           to: ${{ secrets.EMAIL_USERNAME }}
           from: GitHub Actions
  
-      - name: Send-Failure-Email
+      - name: Send Failure Email
         if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
