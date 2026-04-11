@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: hardened-container-policy
+spec:
+  # Set to 'Audit' to test first, 'Enforce' to block immediately
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    # Rule 2: Disallow 'latest' tag
+    - name: check-image-tag
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      validate:
+        message: "Using the 'latest' image tag is prohibited. Please use a specific version."
+        pattern:
+          spec:
+            containers:
+              - image: "!*:latest" # Blocks any image ending in :latest
+            # Optional: Also check initContainers
+            =(initContainers):
+              - image: "!*:latest"
