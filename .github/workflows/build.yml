@@ -4,12 +4,12 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch:
-    inputs:
-      image_tag:
-        description: "Docker image tag"
-        required: true
-        default: "latest"
+  # workflow_dispatch:
+  #   inputs:
+  #     image_tag:
+  #       description: "Docker image tag"
+  #       required: true
+  #       default: "latest"
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
     # ✅ GLOBAL ENV (important fix)
     env:
       IMAGE_NAME: emi-service
-      IMAGE_TAG: ${{ github.event.inputs.image_tag || 'latest' }}
+      IMAGE_TAG: ${{ github.sha }}
 
     steps:
 
