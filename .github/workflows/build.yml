@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Docker image tag"
+        required: true
+        default: "latest"
  
 jobs:
   build:
@@ -43,16 +49,17 @@ jobs:
  
       - name: Build Image
         run: |
-          docker build -t ${{ env.IMAGE_NAME }} .
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
         env:
           IMAGE_NAME: emi-service
+          IMAGE_TAG: ${{ github.event.inputs.image_tag || 'latest' }}
  
       - name: Trivy Install
         run: |
           sudo apt update
           sudo apt install trivy -y
       - name: Scan Image
-        run: trivy image --severity CRITICAL --exit-code=1 ${{ env.IMAGE_NAME }}
+        run: trivy image --severity CRITICAL --exit-code=1 ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         env:
           IMAGE_NAME: emi-service  
  
